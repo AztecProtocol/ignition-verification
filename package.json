@@ -1,0 +1,31 @@
+{
+  "name": "ignition-points",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fetch:g1": "./scripts/g1.sh",
+    "fetch:g2": "./scripts/g2.sh",
+    "fetch:signatures": "./scripts/signatures.sh",
+    "fetch:transcriptHashes": "./scripts/transcripthashes.sh",
+    "fetch:essential": "npm run fetch:g1 && npm run fetch:g2",
+    "fetch:all": "npm fetch:essential && ./scripts/transcripthashes.sh",
+    "parse:transcripts": "node ./scripts/parseTranscripts.js",
+    "validate:signature": "./scripts/recoverAddress.sh",
+    "validate:transcript": "python ./scripts/checkPairing.py",
+    "validate:all": "",
+    "validate": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": "./index.js",
+  "dependencies": {
+    "@aztec/bn128": "^0.2.8",
+    "bn.js": "^5.0.0",
+    "colors": "^1.4.0",
+    "commander": "^4.0.1",
+    "inquirer": "^7.0.1",
+    "pad": "^3.2.0",
+    "web3x": "^4.0.6"
+  }
+}
