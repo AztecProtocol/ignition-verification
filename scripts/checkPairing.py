@@ -40,9 +40,7 @@ def check_pairing(participantG1, participantG2, previousParticipantG1):
 
     assert(pairing_result == True)
 
-print('in script at least')
-with open('../points.json') as json_file:
-    print('in here still')
+with open('points.json') as json_file:
     data = json.load(json_file)
     points = data['points']
     participant_indices = data['addressToIndex']

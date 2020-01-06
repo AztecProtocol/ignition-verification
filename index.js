@@ -78,7 +78,7 @@ program
             }
             console.log(pad(colour.bold.underline.white(`\nLaunching validation script...\n`), 30));
             const pythonBin = (pythonVersion < 3) ? 'python3' : 'python';
-            await executeCommand(`${pythonBin} ./checkPairing.py ${address}`, "Inclusion validation")
+            await executeCommand(`${pythonBin} ./scripts/checkPairing.py ${address}`, "Inclusion validation")
         }
 
         const { privateKey } = await attestation();

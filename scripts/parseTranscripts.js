@@ -15,14 +15,14 @@ function extract32bytelittleendian(buffer, startIndex) {
 }
 
 module.exports = () => {
-    const g1Files = fs.readdirSync('../g1points');
-    const g2Files = fs.readdirSync('../g2points');
+    const g1Files = fs.readdirSync('g1points');
+    const g2Files = fs.readdirSync('g2points');
 
     const G1points = g1Files
         .filter(filename => filename !== 'keys' && filename !== 'descriptions')
         .reduce((acc, filename) => {
             const [participantNum, address] = filename.split('_');
-            const g1File = fs.readFileSync(`../g1points/${filename}`);
+            const g1File = fs.readFileSync(`g1points/${filename}`);
             const G1x = extract32bytelittleendian(g1File, 0);
             const G1y = extract32bytelittleendian(g1File, 32);
         
@@ -39,7 +39,7 @@ module.exports = () => {
     const G2points = g2Files
         .filter(filename => filename !== 'keys')
         .reduce((acc, filename) => {
-            const g2File = fs.readFileSync(`../g2points/${filename}`);
+            const g2File = fs.readFileSync(`g2points/${filename}`);
             const address = filename.split('_')[1];
 
             const xc0_origin = extract32bytelittleendian(g2File, 128);
@@ -71,7 +71,7 @@ module.exports = () => {
             return acc;
         }, {});
 
-    fs.writeFileSync('../points.json', JSON.stringify({
+    fs.writeFileSync('points.json', JSON.stringify({
         points: G2points,
         addressToIndex,
     }));

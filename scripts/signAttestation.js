@@ -32,7 +32,7 @@ function signAttestation(submittedAddress, rawPvtKeyInput) {
     console.log(colour.white.bold.underline(`Attestation signature:`));
     console.log(colour.white(`${signature.signature}\n`));
 
-    console.log(colour.blue.bold('\nThank you for taking part in Ignition. You can publicly post the attestation signature on any public facing website.'));
+    console.log(colour.blue.bold('\nThank you for taking part in Ignition. You can publicly post the attestation signature and the attestation hash on any public facing website.'));
 }
 
 module.exports = signAttestation;
