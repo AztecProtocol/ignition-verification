@@ -12,22 +12,34 @@ const dependencies = require('./prompts/dependencies');
 const getAddress = require('./prompts/address');
 const attestation = require('./prompts/attestation');
 
-async function executeCommand(cmd, prettyName) {
-    await new Promise((resolve, reject)  => {
+async function executeCommand(cmd, prettyName, silent = false) {
+    return new Promise((resolve, reject)  => {
         const transcriptData = exec(cmd);
+        const output = [];
         transcriptData.stdout.on('data', function (data) {
-            console.log(data.toString());
+            output.push(data.toString());
+            if (!silent) console.log(data);
         });
 
         transcriptData.on('exit', function (data) {
-            console.log(colour.bold.green(`\n${prettyName} successful.\n`))
-            return resolve();
+            if (!silent) console.log(colour.bold.green(`\n${prettyName} successful.\n`))
+            return resolve(output);
         });
         transcriptData.on('error', function (data) {
-            console.log(colour.red(`${prettyName} failed.`))
+            if (!silent) console.log(colour.red(`${prettyName} failed.`))
             return reject();
         });
     });
+}
+
+async function getPythonVersion(bin) {
+    const [pythonVersion] = await executeCommand(`${bin} --version`, 'Feth python version', true);
+    if (!pythonVersion) {
+        return false;
+    }
+    const [,version] = pythonVersion.split(' ');
+    const [mainRelease] = version.split('.');
+    return parseInt(mainRelease);
 }
 
 program
@@ -51,15 +63,22 @@ program
         }
 
         if (validationType === 'inclusion' || validationType === 'both') {
+            const pythonVersion = await getPythonVersion('python');
+            if ((!pythonVersion || pythonVersion < 3) && !getPythonVersion('python3')) {
+                console.log(colour.red('Please install python3 on your machine.'));
+                return;
+            }
+
             parseTranscripts();
             console.log(pad(colour.bold.underline.white(`\nValidation of inclusion for address ${address}\n`), 30));
             const { confirmDependencies } = await dependencies();
             if (confirmDependencies) {
-                await executeCommand("pip install py_ecc", "Dependency install");
+                const pipBin = (pythonVersion < 3) ? 'pip3' : 'pip';
+                await executeCommand(`${pipBin} install py_ecc`, "Dependency install");
             }
             console.log(pad(colour.bold.underline.white(`\nLaunching validation script...\n`), 30));
-
-            await executeCommand(`npm run validate:transcript ${address}`, "Inclusion validation")
+            const pythonBin = (pythonVersion < 3) ? 'python3' : 'python';
+            await executeCommand(`${pythonBin} ./checkPairing.py ${address}`, "Inclusion validation")
         }
 
         const { privateKey } = await attestation();
