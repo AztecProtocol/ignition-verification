@@ -14,7 +14,7 @@
     "validate:signature": "./scripts/recoverAddress.sh",
     "validate:transcript": "python ./scripts/checkPairing.py",
     "validate:all": "",
-    "validate": "node index.js"
+    "validate": "node index.js validate"
   },
   "author": "",
   "license": "ISC",
