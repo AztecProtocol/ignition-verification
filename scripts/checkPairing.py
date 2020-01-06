@@ -72,11 +72,11 @@ with open('points.json') as json_file:
             next_participant_address = participant_addresses[participant_index + 1]
             next_participant_points = points[next_participant_address]
             print("Validating that contribution from {} is built on by {}...".format(participant_address, next_participant_address))
-            print("\n{} G1 first point:".format(participant_address))
-            pprint.pprint(next_participant_points['g1'])
-            print("\n{} G2 first point:".format(participant_address))
-            pprint.pprint(next_participant_points['g2'])
             print("\n{} G1 first point:".format(next_participant_address))
+            pprint.pprint(next_participant_points['g1'])
+            print("\n{} G2 first point:".format(next_participant_address))
+            pprint.pprint(next_participant_points['g2'])
+            print("\n{} G1 first point:".format(participant_address))
             pprint.pprint(participant_points['g1'])
             check_pairing(next_participant_points['g1'], next_participant_points['g2'], participant_points['g1'])
             print("\nSuccess! e(G2_generator, next_participant_first_g1) == e(next_participant_g2, current_participant_first_g1)")
