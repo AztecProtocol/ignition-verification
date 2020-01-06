@@ -10,7 +10,7 @@ const thingsToValidate = Object.keys(validationKeys);
 
 const questions = [
     { type: 'list', name: "validationType", message: "Do you want to validate the signature of a contribution, the inclusion of a contribution, or both?", choices: thingsToValidate },
-    { type: 'confirm', name: 'confirmDownload', message: 'This tool will download a number of points for each transcript. This may take a couple minutes. Do you want to continue?', default: true },
+    { type: 'confirm', name: 'confirmDownload', message: 'This tool needs a number of points for each transcript. Do you want to download them?', default: true },
 ]
 
 module.exports = function () {

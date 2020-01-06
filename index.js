@@ -6,6 +6,7 @@ const pad = require('pad');
 const { exec } = require('child_process');
 
 const parseTranscripts = require('./scripts/parseTranscripts')
+const signAttestation = require('./scripts/signAttestation');
 const fetch = require('./prompts/fetch');
 const dependencies = require('./prompts/dependencies');
 const getAddress = require('./prompts/address');
@@ -36,8 +37,7 @@ program
         const { validationType, confirmDownload } = await fetch();
 
         if (!confirmDownload) {
-            console.log(colour.red("Aborting validation, user selected 'No' on confirm download step."));
-            return;
+            console.log(colour.yellow("Skipping download, assuming data is in relevant folders."));
         } else {
             await executeCommand("npm run fetch:essential", "Data download");
         }
@@ -63,8 +63,7 @@ program
         }
 
         const { privateKey } = await attestation();
-
-        // return link to attestation page and signature they can post publicly
+        signAttestation(address, privateKey);
     });
 
 program.parse(process.argv);
