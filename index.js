@@ -8,6 +8,7 @@ const { exec } = require('child_process');
 const parseTranscripts = require('./scripts/parseTranscripts')
 const signAttestation = require('./scripts/signAttestation');
 const fetch = require('./prompts/fetch');
+const getValidationType = require('./prompts/validationType');
 const dependencies = require('./prompts/dependencies');
 const getAddress = require('./prompts/address');
 const attestation = require('./prompts/attestation');
@@ -46,15 +47,9 @@ program
     .command('validate')
     .description('Validate AZTEC Ignition contribution')
     .action(async () => {
-        const { validationType, confirmDownload } = await fetch();
-
-        if (!confirmDownload) {
-            console.log(colour.yellow("Skipping download, assuming data is in relevant folders."));
-        } else {
-            await executeCommand("npm run fetch:essential", "Data download");
-        }
-
         const { address } = await getAddress();
+
+        const { validationType } = await getValidationType();
 
         if (validationType === 'signature' || validationType === 'both') {
             console.log(pad(colour.bold.underline.white(`\nValidation of signature for address ${address}\n`), 30));
@@ -63,6 +58,14 @@ program
         }
 
         if (validationType === 'inclusion' || validationType === 'both') {
+            console.log(pad(colour.bold.underline.white(`\nValidation of inclusion for address ${address}\n`), 30));
+
+            const { confirmDownload } = await fetch();
+            if (!confirmDownload) {
+                console.log(colour.yellow("Skipping download, assuming data is in relevant folders."));
+            } else {
+                await executeCommand("npm run fetch:essential", "Data download");
+            }
             const pythonVersion = await getPythonVersion('python');
             if ((!pythonVersion || pythonVersion < 3) && !getPythonVersion('python3')) {
                 console.log(colour.red('Please install python3 on your machine.'));
@@ -70,7 +73,6 @@ program
             }
 
             parseTranscripts();
-            console.log(pad(colour.bold.underline.white(`\nValidation of inclusion for address ${address}\n`), 30));
             const { confirmDependencies } = await dependencies();
             if (confirmDependencies) {
                 const pipBin = (pythonVersion < 3) ? 'pip3' : 'pip';
