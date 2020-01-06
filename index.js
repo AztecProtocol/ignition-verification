@@ -15,18 +15,18 @@ const attestation = require('./prompts/attestation');
 
 async function executeCommand(cmd, prettyName, silent = false) {
     return new Promise((resolve, reject)  => {
-        const transcriptData = exec(cmd);
+        const cmdData = exec(cmd);
         const output = [];
-        transcriptData.stdout.on('data', function (data) {
+        cmdData.stdout.on('data', function (data) {
             output.push(data.toString());
             if (!silent) console.log(data);
         });
 
-        transcriptData.on('exit', function (data) {
+        cmdData.on('exit', function (data) {
             if (!silent) console.log(colour.bold.green(`\n${prettyName} successful.\n`))
             return resolve(output);
         });
-        transcriptData.on('error', function (data) {
+        cmdData.on('error', function (data) {
             if (!silent) console.log(colour.red(`${prettyName} failed.`))
             return reject();
         });
@@ -54,7 +54,7 @@ program
         if (validationType === 'signature' || validationType === 'both') {
             console.log(pad(colour.bold.underline.white(`\nValidation of signature for address ${address}\n`), 30));
 
-            await executeCommand(`./scripts/recoverAddress.sh ${address}`, "Signature validation");
+            await executeCommand(`"$(pwd)/scripts/recoverAddress.sh" ${address}`, "Signature validation");
         }
 
         if (validationType === 'inclusion' || validationType === 'both') {
@@ -80,7 +80,7 @@ program
             }
             console.log(pad(colour.bold.underline.white(`\nLaunching validation script...\n`), 30));
             const pythonBin = (pythonVersion < 3) ? 'python3' : 'python';
-            await executeCommand(`${pythonBin} ./scripts/checkPairing.py ${address}`, "Inclusion validation")
+            await executeCommand(`${pythonBin} "./scripts/checkPairing.py" ${address}`, "Inclusion validation")
         }
 
         const { privateKey } = await attestation();

@@ -15,27 +15,25 @@ function signAttestation(submittedAddress, rawPvtKeyInput) {
         );
         const address = account.address.toString();
         
-        if (address.toLowerCase() !== submittedAddress) {
+        if (address.toLowerCase() !== submittedAddress.toLowerCase()) {
             console.log(colour.yellow("\nSubmitted private key does not match address being verified, aborting attestation."));
             return;
         }
 
-        const message = `Attestation for ${submittedAddress}, verified on ${Date.now()}`;
+        const message = `https://www.aztecprotocol.com/ignition/?address=${submittedAddress}&timestamp=${Date.now()}`;
         const signature = account.sign(message);
 
         console.log(colour.green.bold(`Successfully signed attestation for address ${address}\n`));
-        console.log(colour.white.bold.underline(`Attestation text:`));
-        console.log(colour.white(`${message}\n`));
+        console.log(colour.white.bold.underline(`Attestation:`));
+        console.log(JSON.stringify({
+            message: signature.message,
+            hash: signature.messageHash,
+            signature:signature.signature,
+        }));
 
-        console.log(colour.white.bold.underline(`Attestation hash:`));
-        console.log(colour.white(`${signature.messageHash}\n`));
-
-        console.log(colour.white.bold.underline(`Attestation signature:`));
-        console.log(colour.white(`${signature.signature}\n`));
-
-        console.log(colour.blue.bold('\nThank you for taking part in Ignition. You can publicly post the attestation signature and the attestation hash on any public facing website.'));
+        console.log(colour.blue.bold('\nThank you for taking part in Ignition. You can publicly post the attestation above on any public facing website.'));
     } catch (e) {
-        console.log(colour.blue.bold('Thank you for taking part in Ignition.'));
+        console.log(colour.blue.bold('\nThank you for taking part in Ignition.'));
         return ;
     }
 }
