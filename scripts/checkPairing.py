@@ -1,6 +1,7 @@
 import json
 import sys
 import pprint
+import os
 
 from py_ecc import bn128
 
@@ -40,7 +41,7 @@ def check_pairing(participantG1, participantG2, previousParticipantG1):
 
     assert(pairing_result == True)
 
-with open('points.json') as json_file:
+with open(os.getcwd() + '/points.json') as json_file:
     data = json.load(json_file)
     points = data['points']
     participant_indices = data['addressToIndex']
@@ -48,7 +49,7 @@ with open('points.json') as json_file:
 
     ## If participant is passed in, check previous, next all in sequence
     if len(sys.argv) > 1:
-        participant_address = sys.argv[1]
+        participant_address = sys.argv[1].lower()
         # Will fail here if supplied address not in list
         participant_index = participant_indices[participant_address]
         participant_points = points[participant_address]
