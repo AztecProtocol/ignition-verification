@@ -47,7 +47,8 @@ program
     .command('validate')
     .description('Validate AZTEC Ignition contribution')
     .action(async () => {
-        const { address } = await getAddress();
+        const { address: rawAddress } = await getAddress();
+        const address = rawAddress.trim().toLowerCase();
 
         const { validationType } = await getValidationType();
 

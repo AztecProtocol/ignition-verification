@@ -66,7 +66,7 @@ with open(os.getcwd() + '/points.json') as json_file:
             print("\n{} G1 first point:".format(previous_participant_address))
             pprint.pprint(previous_participant_points['g1'])
             check_pairing(participant_points['g1'], participant_points['g2'], previous_participant_points['g1'])
-            print("\nSuccess! e(G2_generator, current_participant_first_g1) == e(current_participant_g2, previous_participant_first_g1)")
+            print("\nSuccess! e(G2_generator, current_participant_first_g1) = e(current_participant_g2, previous_participant_first_g1)")
             print("\n –––––––––––––––––––––––– \n")
 
         if participant_index + 1 < len(participant_addresses):
@@ -80,6 +80,6 @@ with open(os.getcwd() + '/points.json') as json_file:
             print("\n{} G1 first point:".format(participant_address))
             pprint.pprint(participant_points['g1'])
             check_pairing(next_participant_points['g1'], next_participant_points['g2'], participant_points['g1'])
-            print("\nSuccess! e(G2_generator, next_participant_first_g1) == e(next_participant_g2, current_participant_first_g1)")
+            print("\nSuccess! e(G2_generator, next_participant_first_g1) = e(next_participant_g2, current_participant_first_g1)")
     else:
         print("Please input the address of the participant you want to validate.")

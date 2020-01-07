@@ -4,7 +4,7 @@ const colour = require('colors');
 
 function signAttestation(submittedAddress, rawPvtKeyInput) {
     if (!rawPvtKeyInput) {
-        console.log(colour.blue.bold('Thank you for taking part in Ignition.'));
+        console.log(colour.blue.bold(`\nThank you for taking part in Ignition. You can view data about your participation at https://www.aztecprotocol.com/ignition/?address=${submittedAddress}`));
         return;
     }
 
@@ -15,7 +15,7 @@ function signAttestation(submittedAddress, rawPvtKeyInput) {
         );
         const address = account.address.toString();
         
-        if (address.toLowerCase() !== submittedAddress.toLowerCase()) {
+        if (address.toLowerCase() !== submittedAddress.trim().toLowerCase()) {
             console.log(colour.yellow("\nSubmitted private key does not match address being verified, aborting attestation."));
             return;
         }
@@ -33,7 +33,7 @@ function signAttestation(submittedAddress, rawPvtKeyInput) {
 
         console.log(colour.blue.bold('\nThank you for taking part in Ignition. You can publicly post the attestation above on any public facing website.'));
     } catch (e) {
-        console.log(colour.blue.bold('\nThank you for taking part in Ignition.'));
+        console.log(colour.blue.bold(`\nThank you for taking part in Ignition. You can view data about your participation at https://www.aztecprotocol.com/ignition/?address=${submittedAddress}`));
         return ;
     }
 }
