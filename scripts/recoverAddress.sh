@@ -30,5 +30,6 @@ for TRANSCRIPT in $(seq 0 $[TRANSCRIPTS - 1]); do
     if [ "${RECOVERED}" != "${PREV_ADDRESS}" ]; then
         exit 1
     fi
+    exit 0
 
 done

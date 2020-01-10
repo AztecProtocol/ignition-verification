@@ -4,7 +4,7 @@ const colour = require('colors');
 
 function signAttestation(submittedAddress, rawPvtKeyInput) {
     if (!rawPvtKeyInput) {
-        console.log(colour.blue.bold(`\nThank you for taking part in Ignition. You can view data about your participation at https://www.aztecprotocol.com/ignition/?address=${submittedAddress}`));
+        console.log(colour.blue.bold(`\nThank you for taking part in Ignition. You can view data about your participation at https://www.aztecprotocol.com/ignition/participant/${submittedAddress}/`));
         return;
     }
 
@@ -20,20 +20,18 @@ function signAttestation(submittedAddress, rawPvtKeyInput) {
             return;
         }
 
-        const message = `https://www.aztecprotocol.com/ignition/?address=${submittedAddress}&timestamp=${Date.now()}`;
+        const message = `https://www.aztecprotocol.com/ignition/participant/${submittedAddress}/?timestamp=${Date.now()}`;
         const signature = account.sign(message);
 
         console.log(colour.green.bold(`Successfully signed attestation for address ${address}\n`));
         console.log(colour.white.bold.underline(`Attestation:`));
-        console.log(JSON.stringify({
-            message: signature.message,
-            hash: signature.messageHash,
-            signature:signature.signature,
-        }));
+        console.log(`Message: ${signature.message}`);
+        console.log(`Hash: ${signature.messageHash}`);
+        console.log(`Signature: ${signature.signature}`);
 
         console.log(colour.blue.bold('\nThank you for taking part in Ignition. You can publicly post the attestation above on any public facing website.'));
     } catch (e) {
-        console.log(colour.blue.bold(`\nThank you for taking part in Ignition. You can view data about your participation at https://www.aztecprotocol.com/ignition/?address=${submittedAddress}`));
+        console.log(colour.blue.bold(`\nThank you for taking part in Ignition. You can view data about your participation at https://www.aztecprotocol.com/ignition/participant/${submittedAddress}/`));
         return ;
     }
 }

@@ -23,9 +23,17 @@ async function executeCommand(cmd, prettyName, silent = false) {
         });
 
         cmdData.on('exit', function (data) {
-            if (!silent) console.log(colour.bold.green(`\n${prettyName} successful.\n`))
+            if (!silent) {
+                if (data === 0) {
+                    if (!silent) console.log(colour.bold.green(`\n${prettyName} successful.\n`))
+                } else {
+                    if (!silent) console.log(colour.red(`${prettyName} failed.`))
+                    return reject();
+                }
+            }
             return resolve(output);
         });
+
         cmdData.on('error', function (data) {
             if (!silent) console.log(colour.red(`${prettyName} failed.`))
             return reject();
