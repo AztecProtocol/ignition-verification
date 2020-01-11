@@ -1,4 +1,4 @@
-# /bin/bash
+#!/bin/bash
 
 mkdir g2points;
 rm g2points/*.dat
