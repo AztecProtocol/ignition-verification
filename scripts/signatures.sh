@@ -1,4 +1,4 @@
-# /bin/sh
+# /bin/bash
 
 mkdir signatures;
 cd signatures;
