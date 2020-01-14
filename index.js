@@ -22,23 +22,18 @@ async function executeCommand(cmd, prettyName, silent = false) {
             if (!silent) console.log(data);
         });
 
-        cmdData.on('exit', function (data) {
+        cmdData.on('exit', function (code, data) {
             if (!silent) {
                 if (data === 0) {
-                    if (!silent) console.log(colour.bold.green(`\n${prettyName} successful.\n`))
+                    if (!silent) console.log(colour.bold.green(`\n${prettyName} successful.\n`));
                 } else {
-                    if (!silent) console.log(colour.red(`${prettyName} failed.`))
-                    return reject();
+                    if (!silent) console.log(colour.red(`${prettyName} failed.`));
+                    return reject(data);
                 }
             }
             return resolve(output);
         });
-
-        cmdData.on('error', function (data) {
-            if (!silent) console.log(colour.red(`${prettyName} failed.`))
-            return reject();
-        });
-    });
+    }).catch(console.log);
 }
 
 async function getPythonVersion(bin) {
@@ -76,7 +71,7 @@ program
                 await executeCommand("npm run fetch:essential", "Data download");
             }
             const pythonVersion = await getPythonVersion('python');
-            if ((!pythonVersion || pythonVersion < 3) && !getPythonVersion('python3')) {
+            if ((!pythonVersion || pythonVersion < 3) && !(await getPythonVersion('python3'))) {
                 console.log(colour.red('Please install python3 on your machine.'));
                 return;
             }
