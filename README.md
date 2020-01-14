@@ -24,6 +24,7 @@ In order to run the tools in this repo, you will need:
 
 - Python 3
 - Node >10
+- pip3
 
 # Installation
 
