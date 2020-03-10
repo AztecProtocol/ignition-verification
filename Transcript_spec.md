@@ -33,8 +33,8 @@ The transcript file contains 4 linear data sections
 
 ### The G2 points
 
-The first G2 point is `z.[2]`, where `z` is the toxic waste from the previous participant. It is used, in combination with the previous participant's transcript, to check that the current transcript was built off of the previous participant's transcript
-The second G2 point is `x.[2]` where `x` is the trusted setup toxic waste.
+The first G2 point is `x.[2]` where `x` is the trusted setup toxic waste.
+The second G2 point is `z.[2]`, where `z` is the toxic waste from the previous participant. It is used, in combination with the previous participant's transcript, to check that the current transcript was built off of the previous participant's transcript
 
 ### Naming scheme
 
