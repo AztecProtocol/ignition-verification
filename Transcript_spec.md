@@ -4,7 +4,7 @@ Our setup produces 100,800,000 G1 points and 1 G2 point, over the BN254 curve.
 
 This is split into multiple 'transcript' files. Each transcript file contains *5,040,000* G1 points. The first transcript file also contains 2 G2 point.
 
-These points are not compressed and are not in Montgomery form.
+These points are not compressed and their coordinates are not in Montgomery form.
 
 ### Data format
 
