@@ -64,7 +64,7 @@ The transcript downloaded and signature file can be found in the `setup_db` fold
 
 ### [G1 point download script](/scripts/g1.sh)
 ### [G2 point download script](/scripts/g2.sh)
-### [Point parsing script](/scripts/parseTranscripts.sh)
+### [Point parsing script](/scripts/parseTranscripts.js)
 ### [Pairing check script](/scripts/checkPairing.py)
 
 This step will:
